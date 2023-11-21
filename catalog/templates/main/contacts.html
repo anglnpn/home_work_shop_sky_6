@@ -270,25 +270,23 @@
             <div class="col-md-6">
                 <div class="card mb-4 rounded-3 box-shadow">
                      <div class="card-header py-3">
-                        <h4 class="my-0 font-weight-normal">Контактная информация</h4>
+                         {% for contact in contacts %}
+                        <h4 class="my-0 font-weight-normal">{{ contact.name }}</h4>
                     </div>
                     <ul class="list-group">
                         <li class="list-group-item text-center">
-                            <h5>Адрес</h5>
-                            <p>Страна USA</p>
-                        </li>
-                        <li class="list-group-item text-center">
-                            <h5>ИНН</h5>
-                            <p>В1-1144442</p>
-                        </li>
-                        <li class="list-group-item text-center">
-                            <h5>Адрес</h5>
-                            <p>ВRedmond,WA,98052-6399</p>
-                        </li>
-                        <li class="list-group-item text-center">
                             <h5>Email</h5>
-                            <p>sly@gmail.ru</p>
+                            <p>{{ contact.email }}</p>
                         </li>
+                        <li class="list-group-item text-center">
+                            <h5>Номер телефона</h5>
+                            <p>{{ contact.phone_number }} </p>
+                        </li>
+                        <li class="list-group-item text-center">
+                            <h5>Адрес</h5>
+                            <p>{{ contact.address }}</p>
+                        </li>
+                         {% endfor %}
                     </ul>
                 </div>
             </div>
