@@ -1,28 +1,42 @@
 
 {% extends 'main/base.html' %}
+{% load mediapath %}
 
 {% block content %}
-{% load mediapath %}
-<div class="row">
-{% for object in object_list %}
-<div class="col-md-4">
-  <div class="card mb-4 box-shadow">
-    <div class="card-body">
-      <img src="{% mediapath object.image %}" width="200" height="200" alt="">
-      <p class="card-text">Название: {{ object.name }}</p>
-      <p class="card-text">Описание: {{ object.description|slice:":100" }}</p>
-      <p class="card-text">Цена {{ object.price }}руб.</p>
-      <div class="d-flex justify-content-between align-items-center">
-        <div class="btn-group">
-          <button type="button" class="btn btn-sm btn-outline-secondary">Купить</button>
-          <button type="button" onclick="window.location.href = '/product/';" class="btn btn-sm btn-outline-secondary">Подробнее</button>
+
+<div class="container">
+    <header>
+        <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+            <h1 class="display-4 fw-normal text-body-emphasis">Главная</h1>
+            <p class="fs-5 text-body-secondary">Выберите товар</p>
         </div>
-        <small class="text-muted">{{ object.create_date }}</small>
+    </header>
+<div class="album py-5 bg-light">
+  <div class="container">
+    <div class="row">
+      {% for object in object_list %}
+      <div class="col-md-4">
+        <div class="card mb-4 box-shadow"> <!--bg-primary-->
+          <img class="card-img-top"
+               src="{% mediapath object.image %}"
+               width="16" height="300"
+               alt="Card image cap">
+          <div class="card-body">
+            <p class="card-text "> <font size="4" color="#20B2AA" face="serif">Товар: {{ object.name }}</font></p>
+            <p class="card-text"><font size="4" color="#20B2AA" face="serif">Цена: {{ object.price }} руб.</font></p>
+            <p class="card-text"><font size="4" color="#20B2AA" face="serif">Категория: {{ object.category }}</font></p>
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-outline-info">Добавить в корзину</button>
+                    <button type="button" onclick="window.location.href = '{% url 'main:product' object.pk %}';" class="btn btn-sm btn-outline-info">Подробнее о товаре</button>
+                </div>
+            </div>
+          </div>
+        </div>
       </div>
+      {% endfor %}
     </div>
   </div>
-</div>
-{% endfor %}
 </div>
 
 {% endblock %}

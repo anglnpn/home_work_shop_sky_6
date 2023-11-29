@@ -1,4 +1,38 @@
 {% extends 'main/base.html' %}
+{% load mediapath %}
 
 {% block content %}
 
+<div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+        <div class="card mb-4 box-shadow">
+            <div class="card-body">
+                <h3 class="card-title">О товаре:</h3>
+                <small class="text-body-secondary">Категория: <a
+                        class="text-warning">{{ product.category1 }}</a></small><br>
+                <small class="text-body-secondary">Обновлено: {{ product.edit_date|date:'d-m-Y H:i:s' }}</small><br><br>
+                <strong>Название:</strong>
+                <ul>
+                    <li>{{ product.name }}</li>
+                </ul>
+                <img class="card-img-top"
+                    src="{% mediapath product.image %}"
+                    alt="Card image cap">
+                <strong>Цена:</strong>
+                <ul>
+                    <li>{{ product.price }} руб.</li>
+                </ul>
+                <strong>Описание:</strong>
+                <ul>
+                    <li>{{ product.description|truncatechars:100 }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+    </div>
+</div>
+
+{% endblock %}

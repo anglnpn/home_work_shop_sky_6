@@ -1,4 +1,5 @@
 {% load static %}
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -7,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{{ title }}</title>
+<!--    <title>Магазин "Копеечка"</title>-->
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/album/">
 
@@ -18,90 +19,55 @@
     <link href="{% static 'css/album.css' %}" rel="stylesheet">
   </head>
 
+  <div class="pricing-header px-3 py-3 pt-md-5 pt-md-4 mx-auto text-center">
+    <h2 class="display-4">Skystore</h2>
+    <p class="lead">Skystore - это отличный вариант хранения ваших плагинов и примеров кода, который вы бы хотели
+        продать</p>
+  </div>
+
   <body>
 
     <header>
       <div class="collapse bg-dark" id="navbarHeader">
         <div class="container">
           <div class="row">
-            <div class="col-sm-8 col-md-7 py-4">
-              <h4 class="text-white">Skystore</h4>
-              <p class="text-muted">Skystore - это отличный вариант хранения ваших плагинов и примеров кода, который вы бы хотели
-        продать</p>
-            </div>
             {% include 'main/includes/inc_main_menu.html' %}
           </div>
         </div>
       </div>
       <div class="navbar navbar-dark bg-dark box-shadow">
         <div class="container d-flex justify-content-between">
-          <a href="#" class="navbar-brand d-flex align-items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-basket2-fill" viewBox="0 0 16 16">
-            <path d="M5.929 1.757a.5.5 0 1 0-.858-.514L2.217 6H.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h.623l1.844 6.456A.75.75 0 0 0 3.69 15h8.622a.75.75 0 0 0 .722-.544L14.877 8h.623a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1.717L10.93 1.243a.5.5 0 1 0-.858.514L12.617 6H3.383L5.93 1.757zM4 10a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0v-2zm3 0a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0v-2zm4-1a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1z"/>
-          </svg>
-          </a>
+<!--          Кнопка с выплывающим меню-->
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
+<!--          Картинка выплывающего меню-->
+          <a href="#" class="navbar-brand d-flex align-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-basket2-fill" viewBox="0 0 16 16">
+            <path d="M5.929 1.757a.5.5 0 1 0-.858-.514L2.217 6H.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h.623l1.844 6.456A.75.75 0 0 0 3.69 15h8.622a.75.75 0 0 0 .722-.544L14.877 8h.623a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1.717L10.93 1.243a.5.5 0 1 0-.858.514L12.617 6H3.383L5.93 1.757zM4 10a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0v-2zm3 0a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0v-2zm4-1a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1z"/>
+          </svg>
+            <strong>Корзина</strong>
+          </a>
         </div>
       </div>
-
-</div>
     </header>
 
-    <main role="main">
-
-      <section class="jumbotron text-center">
-        <div class="container">
-          <h1 class="jumbotron-heading">{{title}}</h1>
-        </div>
-      </section>
-
-      <div class="album py-5 bg-light">
-        <div class="container">
-          <div class="row">
-            {% block content%}
-            {% endblock %}
-          </div>
+    <div class="album py-5 bg-light">
+      <div class="container">
+        <div class="row">
+          {% block content%}
+          {% endblock %}
         </div>
       </div>
+    </div>
 
-    </main>
 
-    <div class="col-12">
-        <div class="card mb-4 rounded-3 shadow-sm">
-            <div class="mb-3">
-            <label class="form-label">FAQ</label>
-            <div class="mb-3">
-                <div class="d-grid gap-2">
-                    <button class="btn btn-outline-info btn-lg" data-bs-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample1">
-                        Как купить?
-                    </button>
-                    <div id="collapseExample1" class="collapse">
-                        <div class="card card-body">
-                            Для покупки товара нажмите кнопку "Купить"
-                        </div>
-                    </div>
-
-                    <button class="btn btn-outline-info btn-lg" data-bs-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2">
-                        Как доставить?
-                    </button>
-                    <div id="collapseExample2" class="collapse">
-                        <div class="card card-body">
-                            Напишите адрес доставки
-                        </div>
-                    </div>
-
-                    <button class="btn btn-outline-info btn-lg" data-bs-toggle="collapse" href="#collapseExample3" role="button" aria-expanded="false" aria-controls="collapseExample3">
-                        Какая гарантия?
-                    </button>
-                    <div id="collapseExample3" class="collapse">
-                        <div class="card card-body">
-                            Гарантия на товар 14 дней с момента покупки
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <footer class="text-muted">
+      <div class="container">
+        <p class="float-right">
+        <p>&copy; 2023 - {% now 'Y' %}</p>
+      </div>
+    </footer>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

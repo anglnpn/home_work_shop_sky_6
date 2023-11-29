@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+
 from catalog.models import Product, Contact
 
 
@@ -6,11 +7,10 @@ from catalog.models import Product, Contact
 
 def index(request):
     # Выборка последних 5 товаров
-    product_list = Product.objects.all()
+    latest_products = Product.objects.all()
 
     context = {
-        'object_list': product_list,
-        'title': 'Главная'
+        'object_list': latest_products
     }
     # Вывод данных в консоль
     # for product in latest_products:
@@ -29,26 +29,26 @@ def contacts(request):
     #     message = request.POST.get('message')
     #     print(f'{name} {phone}: {message}')
 
-    context = {
-        'title': 'Контакты'
-    }
-
     contacts_ = Contact.objects.all()
     return render(request, 'main/contacts.html', {'contacts': contacts_})
 
 
 def categories(request):
-    context = {
-        'title': 'Категории'
-    }
-    return render(request, 'main/categories.html', context)
+    return render(request, 'main/categories.html')
 
 
-def product(request):
-    product_list = Product.objects.all()
+# Product.objects.category_set
+# Product.objects.category
 
-    context = {
-        'object_list': product_list,
-        'title': 'Товар'
-    }
-    return render(request, 'main/product.html', context)
+
+def show_product(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    data = {'title': f'Страница с описанием продукта{product.name}', 'product': product}
+    return render(request, 'main/product.html', context=data)
+
+# def show_product(request, pk):
+#     product = {
+#         'object': Product.objects.get(pk=pk),
+#         'title': 'Товары'
+#     }
+#     return render(request, 'main/product.html', product)

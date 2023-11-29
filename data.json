@@ -1,0 +1,52 @@
+[
+  {
+    "model": "catalog.product",
+    "pk": 7,
+    "fields": {
+      "name": "Молоко",
+      "description": "Коровье",
+      "image": "",
+      "category": "Молочные продукты",
+      "price": 100,
+      "create_date": "2023-11-21T01:02:08Z",
+      "edit_date": "2023-11-21T01:02:10Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 8,
+    "fields": {
+      "name": "Батат",
+      "description": "красный",
+      "image": "",
+      "category": "Овощи",
+      "price": 50,
+      "create_date": "2023-11-21T01:02:38Z",
+      "edit_date": "2023-11-21T01:02:40Z"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+      "name": "Молочные продукты",
+      "description": "продукты из молока"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+      "name": "Хлебобулочные изделия",
+      "description": "Продукты хлебного производства"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+      "name": "Овощи",
+      "description": "Овощная продукция"
+    }
+  }
+]
