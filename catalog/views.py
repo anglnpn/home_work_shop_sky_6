@@ -6,12 +6,17 @@ from catalog.models import Product, Contact
 
 def index(request):
     # Выборка последних 5 товаров
-    latest_products = Product.objects.order_by('-create_date')[:5]
-    # Вывод данных в консоль
-    for product in latest_products:
-        print(f"Product: {product.name}, Description: {product.description}")
+    product_list = Product.objects.all()
 
-    return render(request, 'main/index.html')
+    context = {
+        'object_list': product_list,
+        'title': 'Главная'
+    }
+    # Вывод данных в консоль
+    # for product in latest_products:
+    #     print(f"Product: {product.name}, Description: {product.description}")
+
+    return render(request, 'main/index.html', context)
 
 
 def contacts(request):
@@ -24,9 +29,26 @@ def contacts(request):
     #     message = request.POST.get('message')
     #     print(f'{name} {phone}: {message}')
 
+    context = {
+        'title': 'Контакты'
+    }
+
     contacts_ = Contact.objects.all()
     return render(request, 'main/contacts.html', {'contacts': contacts_})
 
 
 def categories(request):
-    return render(request, 'main/categories.html')
+    context = {
+        'title': 'Категории'
+    }
+    return render(request, 'main/categories.html', context)
+
+
+def product(request):
+    product_list = Product.objects.all()
+
+    context = {
+        'object_list': product_list,
+        'title': 'Товар'
+    }
+    return render(request, 'main/product.html', context)

@@ -11,7 +11,7 @@ class Product(models.Model):
     """
     name = models.CharField(max_length=50, verbose_name='название')
     description = models.CharField(max_length=200, verbose_name='описание')
-    image = models.ImageField(upload_to='product/', verbose_name='изображение', **NULLABLE)
+    image = models.ImageField(upload_to='product/', verbose_name='изображение')
     category = models.CharField(max_length=50, verbose_name='категория')
     price = models.IntegerField(verbose_name='цена за покупку')
     create_date = models.DateTimeField(verbose_name='дата создания')
