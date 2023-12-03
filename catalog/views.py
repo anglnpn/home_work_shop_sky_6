@@ -1,23 +1,27 @@
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy, reverse
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from pytils.translit import slugify
 
-from catalog.models import Product, Contact
+from catalog.models import Product, Contact, Blog
 
 
 # Create your views here.
 
-def index(request):
-    # Выборка последних 5 товаров
-    latest_products = Product.objects.all()
+class ProductListView(ListView):
+    model = Product
+    template_name = 'main/index.html'
 
-    context = {
-        'object_list': latest_products
-    }
-    # Вывод данных в консоль
-    # for product in latest_products:
-    #     print(f"Product: {product.name}, Description: {product.description}")
 
-    return render(request, 'main/index.html', context)
-
+# def index(request):
+#     # Выборка последних 5 товаров
+#     latest_products = Product.objects.all()
+#
+#     context = {
+#         'object_list': latest_products
+#     }
+#
+#     return render(request, 'main/index.html', context)
 
 def contacts(request):
     """
@@ -41,14 +45,70 @@ def categories(request):
 # Product.objects.category
 
 
-def show_product(request, pk):
-    product = get_object_or_404(Product, pk=pk)
-    data = {'title': f'Страница с описанием продукта{product.name}', 'product': product}
-    return render(request, 'main/product.html', context=data)
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = 'main/product.html'
+
 
 # def show_product(request, pk):
-#     product = {
-#         'object': Product.objects.get(pk=pk),
-#         'title': 'Товары'
-#     }
-#     return render(request, 'main/product.html', product)
+#     product = get_object_or_404(Product, pk=pk)
+#     data = {'title': f'Страница с описанием продукта{product.name}', 'product': product}
+#     return render(request, 'main/product.html', context=data)
+
+class BlogCreateView(CreateView):
+    model = Blog
+    fields = ('title', 'content', 'image')
+    template_name = 'main/blog_form.html'
+    success_url = reverse_lazy('main:list')
+
+    def form_valid(self, form):
+        if form.is_valid():
+            new_mat = form.save()
+            new_mat.slug = slugify(new_mat.title)
+            new_mat.save()
+
+        return super().form_valid(form)
+
+
+class BlogListView(ListView):
+    model = Blog
+    template_name = 'main/blog_list.html'
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = super().get_queryset(*args, **kwargs)
+        queryset = queryset.filter(publication=True)
+        return queryset
+
+
+class BlogDetailView(DetailView):
+    model = Blog
+    template_name = 'main/blog_detail.html'
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        self.object.count += 1
+        self.object.save()
+        return self.object
+
+
+class BlogUpdateView(UpdateView):
+    model = Blog
+    fields = ('title', 'content', 'image')
+    template_name = 'main/blog_form.html'
+
+    def form_valid(self, form):
+        if form.is_valid():
+            new_mat = form.save()
+            new_mat.slug = slugify(new_mat.title)
+            new_mat.save()
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('main:view', args=[self.kwargs.get('pk')])
+
+
+class BlogDeleteView(DeleteView):
+    model = Blog
+    success_url = reverse_lazy('main:list')
+    template_name = 'main/blog_confirm_delete.html'
