@@ -7,7 +7,7 @@ class Product(models.Model):
     """
     Модель для продуктов
     """
-    name = models.CharField(max_length=50, verbose_name='название')
+    name = models.CharField(max_length=50, verbose_name='название', unique=True, **NULLABLE)
     description = models.CharField(max_length=200, verbose_name='описание')
     image = models.ImageField(upload_to='product/', verbose_name='изображение')
     category = models.CharField(max_length=50, verbose_name='категория')
@@ -21,6 +21,24 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'
+        ordering = ('name',)
+
+
+class Version(models.Model):
+    """
+    Модель версии продукта, связана с продуктом по pk
+    """
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='id_product')
+    number_version = models.PositiveIntegerField(default=0, verbose_name='номер версии')
+    name = models.CharField(max_length=100, verbose_name='наименование')
+    is_active_version = models.BooleanField(default=True, verbose_name='статус версии')
+
+    def __str__(self):
+        return f'{self.name}'
+
+    class Meta:
+        verbose_name = 'версия'
+        verbose_name_plural = 'версии'
         ordering = ('name',)
 
 
@@ -59,6 +77,9 @@ class Contact(models.Model):
 
 
 class Blog(models.Model):
+    """
+    Модель для создания блоговой записи
+    """
     title = models.CharField(max_length=150, verbose_name='заголовок')
     slug = models.SlugField(max_length=50, verbose_name='url', blank=True, null=True)
     content = models.TextField(verbose_name='Контент')
