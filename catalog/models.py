@@ -1,6 +1,8 @@
 from django.db import models
 
-NULLABLE = {'blank': True, 'null': True}
+from users.models import User
+
+from catalog.utils import NULLABLE
 
 
 class Product(models.Model):
@@ -14,6 +16,7 @@ class Product(models.Model):
     price = models.IntegerField(verbose_name='цена за покупку')
     create_date = models.DateTimeField(verbose_name='дата создания')
     edit_date = models.DateTimeField(verbose_name='дата последнего изменения')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='products', verbose_name='автор')
 
     def __str__(self):
         return f'{self.name} {self.description}'
