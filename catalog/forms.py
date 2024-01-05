@@ -11,7 +11,10 @@ class ProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = ['name', 'description', 'image', 'category', 'price', 'create_date', 'edit_date']
+        # widgets = {
+        #     'author': forms.HiddenInput(),
+        # }
 
     def clean_name(self):
         cleaned_name = self.cleaned_data.get('name')

@@ -173,7 +173,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
             return self.form_invalid(form)
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     """
     Класс для обновления данных о продукте
     """
@@ -184,6 +184,7 @@ class ProductUpdateView(UpdateView):
 
     def __init__(self):
         self.object = None
+        self.request = None
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
@@ -201,35 +202,14 @@ class ProductUpdateView(UpdateView):
         version_formset = context['version_formset']
         if version_formset.is_valid():
             self.object = form.save()
+            self.object.author = self.request.user
             version_formset.instance = self.object
             version_formset.save()
             return super().form_valid(form)
         else:
             return self.form_invalid(form)
 
-    # def form_valid(self, form):
-    #     context = self.get_context_data()
-    #     version_formset = context['version_formset']
-    #
-    #     if version_formset.is_valid():
-    #         self.object = form.save()
-    #
-    #         # Получим все версии продукта
-    #         versions = version_formset.instance.version_set.all()
-    #
-    #         # Установим активной версией первую активную версию
-    #         active_versions = versions.filter(is_active_version=True)
-    #         if active_versions.count() > 1:
-    #             for version in active_versions[1:]:
-    #                 version.is_active_version = False
-    #                 version.save()
-    #
-    #         version_formset.instance = self.object
-    #         version_formset.save()
-    #
-    #         return super().form_valid(form)
-    #     else:
-    #         return self.form_invalid(form)
+
 
 
 
