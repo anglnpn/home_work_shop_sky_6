@@ -210,6 +210,8 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
             return self.form_invalid(form)
 
 
-
-
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
+    model = Product
+    success_url = reverse_lazy('main:index')
+    template_name = 'main/product_confirm_delete.html'
 

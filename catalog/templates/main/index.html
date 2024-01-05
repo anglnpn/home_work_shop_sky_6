@@ -38,6 +38,7 @@
                     <button type="button" class="btn btn-sm btn-outline-info">Добавить в корзину</button>
                     <button type="button" onclick="window.location.href = '{% url 'main:product' object.pk %}';" class="btn btn-sm btn-outline-info">Подробнее о товаре</button>
                     <button type="button" onclick="window.location.href = '{% url 'main:update_product' object.pk %}';" class="btn btn-sm btn-outline-info">Редактировать</button>
+                    <button type="button" onclick="window.location.href = '{% url 'main:delete_product' object.pk %}';" class="btn btn-sm btn-outline-info">Удалить</button>
                 </div>
             </div>
           </div>
