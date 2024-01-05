@@ -8,7 +8,9 @@ from catalog.forms import ProductForm, VersionFormSet
 
 from django.db.models import OuterRef, Subquery
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+
+from django.shortcuts import render
 
 
 # Create your views here.
@@ -148,6 +150,12 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         self.request = None
         self.object = None
 
+    def test_func(self):
+        """
+        Проверка, является ли текущий пользователь автором продукта
+        """
+        return self.request.user == self.get_object().author
+
     def get_context_data(self, **kwargs):
         """
         Получаем список версий продукта из формсета
@@ -173,7 +181,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
             return self.form_invalid(form)
 
 
-class ProductUpdateView(LoginRequiredMixin, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """
     Класс для обновления данных о продукте
     """
@@ -185,6 +193,12 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     def __init__(self):
         self.object = None
         self.request = None
+
+    def test_func(self):
+        """
+        Проверка, является ли текущий пользователь автором продукта
+        """
+        return self.request.user == self.get_object().author
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
@@ -210,8 +224,21 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
             return self.form_invalid(form)
 
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
+class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    """Класс для удаления продукта"""
     model = Product
     success_url = reverse_lazy('main:index')
     template_name = 'main/product_confirm_delete.html'
 
+    def test_func(self):
+        """
+        Проверка, является ли текущий пользователь автором продукта
+        """
+        return self.request.user == self.get_object().author
+
+
+def custom_permission_denied(request, exception):
+    """
+    При ошибке 403 отправляет на кастомную страницу
+    """
+    return render(request, 'main/403.html', status=403)

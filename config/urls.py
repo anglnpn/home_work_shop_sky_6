@@ -26,5 +26,7 @@ urlpatterns = [
     path('users/', include('users.urls', namespace='users'))
 ]
 
+handler403 = 'catalog.views.custom_permission_denied'
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
