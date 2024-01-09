@@ -4,7 +4,7 @@
         <li><a href="/" class="text-white">Главная</a></li>
         <li><a href="/contacts/" class="text-white">Контакты</a></li>
         <li><a href="/categories/" class="text-white">Категории</a></li>
-        <li><a href="/material/" class="text-white">Блог</a></li>
+        <li><a href="/blog/" class="text-white">Блог</a></li>
         {% if user.is_authenticated %}
             <li><a href="{% url 'users:logout' %}" class="text-white">Выйти</a></li>
             {% if user.avatar  %}

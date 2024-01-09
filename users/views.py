@@ -32,7 +32,7 @@ class RegisterView(CreateView):
 class ProfileView(UpdateView):
     model = User
     form_class = UserProfileForm
-    success_url = reverse_lazy('main:index')
+    success_url = reverse_lazy('blog:index')
 
     def get_object(self, queryset=None):
         return self.request.user
@@ -46,7 +46,7 @@ def activate(request, uid):
     user = User.objects.filter(email_verify=int(uid)).first()
     user.is_active = True
     user.save()
-    return redirect(reverse('main:index'))
+    return redirect(reverse('blog:index'))
 
 
 def restore_password(request):

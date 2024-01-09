@@ -14,5 +14,5 @@ class Command(BaseCommand):
 
         )
 
-        user.set_password('a123456')
+        user.set_password('a1234567890')
         user.save()
