@@ -1,5 +1,5 @@
 import random
-
+from django.contrib.auth.models import Group
 from django.conf import settings
 from django.core.mail import send_mail
 from django.shortcuts import redirect, get_object_or_404, render
@@ -18,6 +18,13 @@ class RegisterView(CreateView):
 
     def form_valid(self, form):
         new_user = form.save()
+        # Получаем объект группы по имени
+        group_name = 'user'  # Замените на фактическое имя вашей группы
+        user_group, created = Group.objects.get_or_create(name=group_name)
+
+        # Присваиваем пользователя к группе
+        new_user.groups.add(user_group)
+
         send_mail(
             subject='Подтверждение адреса электронной почты',
             message=f'Почта подтверждена, приятного пользования нашим магазином.',

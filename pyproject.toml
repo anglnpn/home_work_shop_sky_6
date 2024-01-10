@@ -13,6 +13,7 @@ pillow = "^10.1.0"
 ipython = "^8.17.2"
 django-stubs = "^4.2.6"
 pytils = "^0.4.1"
+self = "^2020.12.3"
 
 
 [build-system]

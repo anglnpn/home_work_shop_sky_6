@@ -17,6 +17,7 @@ class Product(models.Model):
     create_date = models.DateTimeField(verbose_name='дата создания')
     edit_date = models.DateTimeField(verbose_name='дата последнего изменения')
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='products', verbose_name='автор')
+    is_published = models.BooleanField(default=False, verbose_name='признак публикации')
 
     def __str__(self):
         return f'{self.name} {self.description}'
@@ -25,6 +26,12 @@ class Product(models.Model):
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'
         ordering = ('name',)
+        permissions = [
+            (
+                'edit_published',
+                'Can publish posts'
+            )
+        ]
 
 
 class Version(models.Model):

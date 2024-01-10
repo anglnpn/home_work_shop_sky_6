@@ -1,4 +1,3 @@
-
 {% extends 'main/base.html' %}
 {% load mediapath %}
 
@@ -16,34 +15,67 @@
   <div class="container">
     <div class="row">
       {% for object in object_list %}
-      <div class="col-md-6">
-        <div class="card mb-4 box-shadow"> <!--bg-primary-->
-          <img class="card-img-top"
-               src="{% mediapath object.image %}"
-               width="16" height="300"
-               alt="Card image cap">
-          <div class="card-body">
-            <p class="card-text "> <font size="4" color="#20B2AA" face="serif">Товар: {{ object.name }}</font></p>
-            <p class="card-text"><font size="4" color="#20B2AA" face="serif">Цена: {{ object.price }} руб.</font></p>
-            <p class="card-text"><font size="4" color="#20B2AA" face="serif">Категория: {{ object.category }}</font></p>
-              {% if object.active_version_number %}
-                <p class="card-text">
-                    <font size="4" color="#20B2AA" face="serif">
-                        Версия: {{ object.active_version_number }}
-                    </font>
-                </p>
-              {% endif %}
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-info">Добавить в корзину</button>
-                    <button type="button" onclick="window.location.href = '{% url 'main:product' object.pk %}';" class="btn btn-sm btn-outline-info">Подробнее о товаре</button>
-                    <button type="button" onclick="window.location.href = '{% url 'main:update_product' object.pk %}';" class="btn btn-sm btn-outline-info">Редактировать</button>
-                    <button type="button" onclick="window.location.href = '{% url 'main:delete_product' object.pk %}';" class="btn btn-sm btn-outline-info">Удалить</button>
+        {% if perms.catalog.view_product %}
+          <div class="col-md-6">
+            <div class="card mb-4 box-shadow"> <!--bg-primary-->
+              <img class="card-img-top"
+                   src="{% mediapath object.image %}"
+                   width="16" height="300"
+                   alt="Card image cap">
+              <div class="card-body">
+                <p class="card-text "> <font size="4" color="#20B2AA" face="serif">Товар: {{ object.name }}</font></p>
+                <p class="card-text"><font size="4" color="#20B2AA" face="serif">Цена: {{ object.price }} руб.</font></p>
+                <p class="card-text"><font size="4" color="#20B2AA" face="serif">Категория: {{ object.category }}</font></p>
+                  {% if object.active_version_number %}
+                    <p class="card-text">
+                        <font size="4" color="#20B2AA" face="serif">
+                            Версия: {{ object.active_version_number }}
+                        </font>
+                    </p>
+                  {% endif %}
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-outline-info">Добавить в корзину</button>
+                        <button type="button" onclick="window.location.href = '{% url 'main:product' object.pk %}';" class="btn btn-sm btn-outline-info">Подробнее о товаре</button>
+                        <button type="button" onclick="window.location.href = '{% url 'main:update_product' object.pk %}';" class="btn btn-sm btn-outline-info">Редактировать</button>
+                        <button type="button" onclick="window.location.href = '{% url 'main:delete_product' object.pk %}';" class="btn btn-sm btn-outline-info">Удалить</button>
+                    </div>
                 </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        {% else %}
+            {% if object.is_published %}
+              <div class="col-md-6">
+                <div class="card mb-4 box-shadow"> <!--bg-primary-->
+                  <img class="card-img-top"
+                       src="{% mediapath object.image %}"
+                       width="16" height="300"
+                       alt="Card image cap">
+                  <div class="card-body">
+                    <p class="card-text "> <font size="4" color="#20B2AA" face="serif">Товар: {{ object.name }}</font></p>
+                    <p class="card-text"><font size="4" color="#20B2AA" face="serif">Цена: {{ object.price }} руб.</font></p>
+                    <p class="card-text"><font size="4" color="#20B2AA" face="serif">Категория: {{ object.category }}</font></p>
+                      {% if object.active_version_number %}
+                        <p class="card-text">
+                            <font size="4" color="#20B2AA" face="serif">
+                                Версия: {{ object.active_version_number }}
+                            </font>
+                        </p>
+                      {% endif %}
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-info">Добавить в корзину</button>
+                            <button type="button" onclick="window.location.href = '{% url 'main:product' object.pk %}';" class="btn btn-sm btn-outline-info">Подробнее о товаре</button>
+                            <button type="button" onclick="window.location.href = '{% url 'main:update_product' object.pk %}';" class="btn btn-sm btn-outline-info">Редактировать</button>
+                            <button type="button" onclick="window.location.href = '{% url 'main:delete_product' object.pk %}';" class="btn btn-sm btn-outline-info">Удалить</button>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+        {% endif %}
       {% endfor %}
     </div>
   </div>
