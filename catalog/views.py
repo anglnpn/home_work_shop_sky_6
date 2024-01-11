@@ -18,10 +18,15 @@ def toggle_publish(request, pk):
     Функция проверяет статус публикации и присваивает противоположное значение
     """
     product_item = get_object_or_404(Product, pk=pk)
-    product_item.is_published = not product_item.is_published
-    product_item.save()
 
-    return redirect(reverse('main:index'))
+    # Проверка на наличие пермиссий у пользователя для публикации/снятия
+    # с публикации продукта
+    # Если прав нет идет обработка ошибки 403
+    if request.user.has_perm('catalog.edit_product'):
+        product_item.is_published = not product_item.is_published
+        product_item.save()
+
+        return redirect(reverse('main:index'))
 
 
 class ProductListView(LoginRequiredMixin, ListView):
