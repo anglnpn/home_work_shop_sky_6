@@ -1,5 +1,6 @@
 from django.urls import path
 
+
 from catalog.apps import MainConfig
 from catalog.views import contacts, categories, ProductListView, ProductDetailView, ProductCreateView, \
     ProductUpdateView, ProductDeleteView, toggle_publish

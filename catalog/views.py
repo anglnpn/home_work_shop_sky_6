@@ -1,3 +1,4 @@
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -22,11 +23,13 @@ def toggle_publish(request, pk):
     # Проверка на наличие пермиссий у пользователя для публикации/снятия
     # с публикации продукта
     # Если прав нет идет обработка ошибки 403
-    if request.user.has_perm('catalog.edit_product'):
+    if request.user.has_perm('catalog.edit_published'):
         product_item.is_published = not product_item.is_published
         product_item.save()
-
         return redirect(reverse('main:index'))
+    else:
+        # Обработка случая, когда у пользователя нет нужных прав
+        return render(request, 'main/403.html')
 
 
 class ProductListView(LoginRequiredMixin, ListView):
@@ -143,7 +146,7 @@ class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesT
         """
         user = self.request.user
         product_author = self.get_object().author
-        return user == product_author or user.has_perm('catalog.edit_published')
+        return user == product_author or user.groups.filter(name="moderator").exists()
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
