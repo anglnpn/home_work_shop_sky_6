@@ -1,6 +1,7 @@
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
+from django.views.decorators.cache import cache_page
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from pytils.translit import slugify
 
@@ -12,6 +13,8 @@ from django.db.models import OuterRef, Subquery
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 
 from django.shortcuts import render
+
+from catalog.services import get_categories_from_cache
 
 
 def toggle_publish(request, pk):
@@ -68,10 +71,14 @@ def contacts(request):
 
 
 def categories(request):
-    return render(request, 'main/categories.html')
+    """
+    Вывод списка категорий продуктов с использованием низкоуровневого кэширования
+    """
+    categories_list = get_categories_from_cache()
+    return render(request, 'main/categories.html', {'categories_list': categories_list})
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     """
     класс для выведения информации о продукте
     """
@@ -140,7 +147,6 @@ class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesT
         self.request = None
 
     def test_func(self):
-
         """
         Проверка, является ли текущий пользователь автором или модератором продукта
         """
